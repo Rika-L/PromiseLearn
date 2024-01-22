@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h2 class="page-header">Promise初体验</h2>
+    <button class="btn btn-primary" id="btn">点击抽奖</button>
+</div>
+<script>
+    // 生成随机数
+    function rand(m, n) {
+        return Math.ceil(Math.random() * (n - m + 1)) + m - 1;
+    }
+
+    //获取元素对象
+    const btn = document.querySelector('#btn');
+
+    //绑定单击事件
+    btn.addEventListener('click', function () {
+
+
+        //Promise实现
+        const p = new Promise((resolve, reject) => {
+            //定时器
+            setTimeout(() => {
+                //获取一个从1到100的随机数
+                let n = rand(1, 100);
+                //判断
+                if (n <= 30) {
+                    resolve(n);  //将promise对象的状态设置为成功
+                } else {
+                    reject(n);  //reject相反
+                }
+            }, 1000);
+        });
+
+        //调用then方法
+        p.then((value)=>{
+        alert('恭喜中奖, 您的中奖数字为' + value);
+        }, (reason)=>{
+        alert('再接再厉'+ reason);
+        });
+    })
+</script>
+</body>
+</html>
