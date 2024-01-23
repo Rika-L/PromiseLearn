@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn">点击获取天气</button>
+<script>
+    function sendAJAX(url) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = "json";
+            xhr.open('GET', url);
+            xhr.send();
+            //处理结果
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve(xhr.response);
+                    } else {
+                        reject(xhr.status);
+                    }
+                }
+            }
+        });
+    }
+
+    let btn = document.querySelector('#btn');
+    btn.addEventListener('click', async function () {
+        let tianqi = await sendAJAX('https://restapi.amap.com/v3/weather/weatherInfo?city=440703&key=\t4b3d57ff6014927753e64acb206d3c8f');
+        console.log(tianqi);
+        alert('蓬江区今天的天气是：' + tianqi.lives[0].weather.toString());
+    });
+</script>
+</body>
+</html>

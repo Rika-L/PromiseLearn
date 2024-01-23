@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    async function main(){
+        let p = new Promise((resolve, reject)=>{
+            //resolve('OK');
+            reject('error');
+        })
+        //1右侧为promise
+        try{//捕获失败结果
+            let res = await p;
+        }catch (e){
+            console.log(e);
+        }
+        //如果promise失败
+    }
+    main();
+</script>
+</body>
+</html>

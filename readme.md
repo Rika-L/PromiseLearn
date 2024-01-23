@@ -266,3 +266,74 @@ return new Promise(() => {});
 
 
 
+## async
+
+* 函数的返回值为promise对象
+* promise对象的结果由async函数执行的返回值决定的
+
+## await表达式
+
+1. await右侧表达式一般为promise对象，但也可以是其他值
+2. 如果表达式时promise对象，await返回的是promise成功的值
+3. 如果表达式是其他值，直接将此值作为await的返回值
+
+```js
+async function main(){
+        let p = new Promise((resolve, reject)=>{
+            //resolve('OK');
+            reject('error');
+        })
+        //1右侧为promise
+        try{//捕获失败结果
+            let res = await p;
+        }catch (e){
+            console.log(e);
+        }
+        //如果promise失败
+    }
+    main();
+```
+
+## async与await结合
+
+```js
+const fs = require('fs');
+const util = require('util')
+const mineReadFile = util.promisify(fs.readFile);
+
+async function main() {
+    try{
+    let data1 = await mineReadFile('./resource/1.html');
+    let data2 = await mineReadFile('./resource/2.html');
+    let data3 = await mineReadFile('./resource/3.html');
+    console.log(data1 + data2 + data3);
+}catch (e) {
+        console.log(e);
+    }
+}
+main();
+```
+
+优雅！
+
+## async与await结合发送AJAX请求
+
+点击按钮发送AJAX请求获取信息
+
+```js
+    let btn = document.querySelector('#btn');
+    btn.addEventListener('click', async function () {
+        let tianqi = await sendAJAX('https://restapi.amap.com/v3/weather/weatherInfo?city=440703&key=\t4b3d57ff6014927753e64acb206d3c8f');
+        console.log(tianqi);
+        alert('蓬江区今天的天气是：' + tianqi.lives[0].weather.toString());
+    });
+```
+
+函数用的是之前封装的AJAX
+
+
+
+完结撒花！！！
+
+
+
