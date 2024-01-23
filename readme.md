@@ -113,3 +113,152 @@ const btn = document.querySelector('#btn');
     });
 ```
 
+### 封装练习-fs模块
+
+* 封装一个函数mineReadFile 读取文件内容
+* 参数 path 文件路径
+* 返回 promise 对象
+
+### util.promisify方法进行promise风格转换
+
+```js
+const fs = require('fs');
+const util = require('util');
+let mineReadFile = util.promisify(fs.readFile);
+```
+
+<u>**好爽！！！**</u>
+
+### 封装AJAX请求
+
+* 封装一个函数 sendAJAX 发送 GET AJAX 请求
+* 参数 URL
+* 返回结果Promise对象
+
+## promise的状态变化
+
+实例对象中的一个属性[PromiseState]
+
+* pending 未决定
+* resolved / fulfilled 成功
+* rejected 失败
+
+1. pending变为resolved
+2. pending变为rejected
+
+只能改变一次
+
+## promise对象的值
+
+实例对象的另一个属性[PromiseResult]
+
+保存着异步任务[成功/失败]的结果
+
+* resolve
+* reject
+
+## promise工作流程
+
+ ![27fa2e0879fa7fe551bf89509fd668c](D:\wechatfile\WeChat Files\wxid_0z1kzagu3rpg22\FileStorage\Temp\27fa2e0879fa7fe551bf89509fd668c.jpg)
+
+## Promise的API
+
+then方法用来指定成功或失败方法的回调
+
+catch用来指定失败方法的回调
+
+## Promise的方法
+
+```js
+let p1 = Promise.resolve(521);
+```
+
+如果传入的参数为非promise对象,则返回的结果为成功的promise对象
+
+如果传入的参数为Promise对象,则参数的结果决定了resolve结果
+
+```js
+let p2 = Promise.resolve(new Promise(resolve, reject)=>{
+    reject('Error');
+});
+p2.catch(reason => {
+  console.log(reason);  
+})
+```
+
+reject()
+
+与resolve类似但是无论传入什么,结果都是失败
+
+### all方法
+
+* 包含n个promise的数组
+* 返回一个新的promise
+* 只有所有的promise成功才成功,只要有一个失败就直接失败
+* &&与与运算类似
+
+### race方法
+
+* 包含n个promise的数组
+* 返回一个新的promise
+* 第一个完成的promise结果状态决定最终的结果状态
+
+## Promise的几个关键问题
+
+### 如何修改对象的状态
+
+1. resolve函数
+2. reject函数
+3. 抛出错误
+
+```js
+throw '出问题了';
+```
+
+### 能否执行多个回调
+
+当promise改变为指定状态时都会调用
+
+### 改变状态与指定回调顺序的先后问题
+
+* 都有可能
+* 异步任务会先执行then方法,再改变状态
+
+### then方法返回结果由什么决定
+
+简单表述：由then()指定的回调函数执行的结果决定
+
+详细：
+
+1. 抛出错误throw，result对象状态变为失败
+2. 返回结果为非promise对象，result对象变为成功，结果等于return结果
+3. 返回结果为promise对象，返回的promise状态决定result状态
+
+###  promise如何串联多个任务
+
+直接套在thin方法里
+
+### promise异常穿透
+
+在最后的位置指定一个失败的回调
+
+```js
+。catch(reason => {
+    console.warn(reason);
+})
+```
+
+### 中断promise链
+
+有且只有一种方式，返回一个pending状态的promise对象
+
+```js
+return new Promise(() => {});
+```
+
+
+
+
+
+## 手写promise
+
