@@ -262,3 +262,7 @@ return new Promise(() => {});
 
 ## 手写promise
 
+**跳过了**
+
+
+
